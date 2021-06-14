@@ -60,6 +60,22 @@ func MyDataSource(ctx *cli.Context) error {
 	return fromDataSource(url, pattern, dir, cfg, cache, idea)
 }
 
+// Gorm generates gorm model code from datasource
+func Gorm(ctx *cli.Context) error {
+	url := strings.TrimSpace(ctx.String(flagURL))
+	dir := strings.TrimSpace(ctx.String(flagDir))
+	cache := ctx.Bool(flagCache)
+	idea := ctx.Bool(flagIdea)
+	style := ctx.String(flagStyle)
+	pattern := strings.TrimSpace(ctx.String(flagTable))
+	cfg, err := config.NewConfig(style)
+	if err != nil {
+		return err
+	}
+
+	return fromDataSource(url, pattern, dir, cfg, cache, idea)
+}
+
 func fromDDl(src, dir string, cfg *config.Config, cache, idea bool) error {
 	log := console.NewConsole(idea)
 	src = strings.TrimSpace(src)
